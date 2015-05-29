@@ -135,6 +135,11 @@ def drawGP():
     r_trigger = ((375, 34), (375, 28), (373, 25), (371, 21), (360, 21), (358, 25), (357, 28), (356, 39), (358, 39),
                  (361, 33), (373, 34))
 
+    pygame.gfxdraw.filled_polygon(screen, outline, CHARCOAL)
+    pygame.gfxdraw.filled_polygon(screen, r_bumper, CHARCOAL)
+    pygame.gfxdraw.filled_polygon(screen, l_bumper, CHARCOAL)
+    pygame.gfxdraw.filled_polygon(screen, l_trigger, CHARCOAL)
+    pygame.gfxdraw.filled_polygon(screen, r_trigger, CHARCOAL)
     pygame.gfxdraw.polygon(screen, outline, BLACK)
     pygame.gfxdraw.polygon(screen, r_bumper, BLACK)
     pygame.gfxdraw.polygon(screen, l_bumper, BLACK)
@@ -163,9 +168,9 @@ def drawGP():
     screen.blit(font.render('A', True, GREEN), (376, 99))  # A BUTTON label
 
     # START AND BACK
-    pygame.gfxdraw.filled_circle(screen, 319, 93, 4, CHARCOAL)  # START fill
+    pygame.gfxdraw.filled_circle(screen, 319, 93, 4, BLACK)  # START fill
     pygame.gfxdraw.aacircle(screen, 319, 93, 4, BLACK)  # START outline
-    pygame.gfxdraw.filled_circle(screen, 271, 93, 4, CHARCOAL)  # BACK fill
+    pygame.gfxdraw.filled_circle(screen, 271, 93, 4, BLACK)  # BACK fill
     pygame.gfxdraw.aacircle(screen, 271, 93, 4, BLACK)  # BACK outline
 
 
@@ -177,12 +182,14 @@ def drawGP():
     AAfilledRoundedRect(screen, (230, 136, 46, 15), BLACK)
 
     # LEFT JOYSTICK
+    pygame.gfxdraw.filled_circle(screen, 210, 91, 17, BLACK)
     pygame.gfxdraw.filled_circle(screen, 210, 91, 13, CHARCOAL)
     pygame.gfxdraw.aacircle(screen, 210, 91, 13, BLACK)
     pygame.gfxdraw.aacircle(screen, 210, 91, 17, BLACK)
     pygame.gfxdraw.aacircle(screen, 210, 91, 24, BLACK)
 
     # RIGHT JOYSTICK
+    pygame.gfxdraw.filled_circle(screen, 337, 142, 17, BLACK)
     pygame.gfxdraw.filled_circle(screen, 337, 142, 13, CHARCOAL)
     pygame.gfxdraw.aacircle(screen, 337, 142, 13, BLACK)
     pygame.gfxdraw.aacircle(screen, 337, 142, 17, BLACK)
