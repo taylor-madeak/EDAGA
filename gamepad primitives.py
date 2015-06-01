@@ -114,111 +114,104 @@ def drawGP():
 
     # BACKGROUND
     screen.fill(WHITE)
-    outline = ((295, 49), (326, 48), (351, 37), (357, 39), (356, 42), (369, 46), (381, 46), (404, 54), (411, 59),
-                   (427, 105), (437, 141), (442, 167), (444, 184), (444, 195), (443, 207), (441, 215), (439, 221),
-                   (436, 229), (430, 236), (423, 239), (415, 239), (404, 236), (391, 229), (383, 221), (376, 215),
-                   (368, 207), (362, 200), (355, 195), (342, 188), (327, 184), (305, 182), (295, 181), (285, 182),
-                   (263, 184), (248, 188), (235, 195), (228, 200), (222, 207), (214, 215), (207, 221), (199, 229),
-                   (186, 236), (175, 239), (167, 239), (160, 236), (154, 229), (151, 221), (149, 215), (147, 207),
-                   (146, 195), (146, 184), (148, 167), (153, 141), (163, 105), (179, 59), (186, 54), (209, 46),
-                   (221, 46), (234, 42), (233, 39), (239, 37), (264, 48), (295, 49))
+    outline = ((300, 81), (275, 81), (270, 79), (268, 78), (240, 48), (237, 46), (225, 46), (217, 48), (206, 51),
+               (195, 56), (181, 63), (178, 65), (177, 67), (174, 71), (140, 174), (139, 180), (138, 185), (137, 191),
+               (136, 195), (136, 215), (138, 220), (142, 232), (149, 242), (153, 245), (162, 250), (168, 252),
+               (172, 252), (231, 198), (239, 196), (361, 196), (369, 198), (428, 252), (432, 252), (438, 250),
+               (447, 245), (451, 242), (458, 232), (462, 220), (464, 215), (464, 195), (463, 191), (462, 185),
+               (461, 180), (460, 174), (426, 71), (423, 67), (422, 65), (419, 63), (405, 56), (394, 51), (383, 48),
+               (375, 46), (363, 46), (360, 48), (332, 78), (330, 79), (325, 81), (300, 81))
 
-    r_bumper = ((356, 42), (361, 33), (373, 34), (379, 35), (385, 37), (391, 40), (396, 42), (405, 46), (405, 48),
-               (408, 50), (408, 57), (404, 54), (381, 46), (369, 46))
+    top = ((249, 57), (256, 41), (344, 41), (351, 57))
+    l_button = ((256, 41), (247, 35), (244, 34), (241, 33), (228, 33), (223, 34), (218, 36), (191, 48), (188, 50),
+                (186, 53), (185, 60))
+    r_button = ((344, 41), (353, 35), (356, 34), (359, 33), (372, 33), (377, 34), (382, 36), (409, 48), (412, 50),
+                (414, 53), (415, 60))
 
-    l_bumper = ((234, 42), (229, 33), (217, 34), (211, 35), (205, 37), (199, 40), (194, 42), (185, 46), (185, 48),
-               (182, 50), (182, 57), (186, 54), (209, 46), (221, 46))
-
-    l_trigger = ((215, 34), (215, 28), (217, 25), (219, 21), (230, 21), (232, 25), (233, 28), (234, 39), (232, 39),
-                 (229, 33), (217, 34))
-
-    r_trigger = ((375, 34), (375, 28), (373, 25), (371, 21), (360, 21), (358, 25), (357, 28), (356, 39), (358, 39),
-                 (361, 33), (373, 34))
-
-    pygame.gfxdraw.filled_polygon(screen, outline, CHARCOAL)
-    pygame.gfxdraw.filled_polygon(screen, r_bumper, CHARCOAL)
-    pygame.gfxdraw.filled_polygon(screen, l_bumper, CHARCOAL)
-    pygame.gfxdraw.filled_polygon(screen, l_trigger, CHARCOAL)
-    pygame.gfxdraw.filled_polygon(screen, r_trigger, CHARCOAL)
     pygame.gfxdraw.polygon(screen, outline, BLACK)
-    pygame.gfxdraw.polygon(screen, r_bumper, BLACK)
-    pygame.gfxdraw.polygon(screen, l_bumper, BLACK)
-    pygame.gfxdraw.polygon(screen, l_trigger, BLACK)
-    pygame.gfxdraw.polygon(screen, r_trigger, BLACK)
+    pygame.draw.lines(screen, BLACK, False, top)
+    pygame.draw.lines(screen, BLACK, False, l_button)
+    pygame.draw.lines(screen, BLACK, False, r_button)
+
 
 
     # HOME button
-    pygame.gfxdraw.aacircle(screen, 295, 93, 12, BLACK)
+    pygame.gfxdraw.aacircle(screen, 300, 62, 15, BLACK)
 
     # FACE BUTTONS
-    pygame.gfxdraw.filled_circle(screen, 380, 74, 8, BLACK)  # Y BUTTON fill
-    pygame.gfxdraw.aacircle(screen, 380, 74, 8, BLACK)  # Y BUTTON outline
-    screen.blit(font.render('Y', True, YELLOW), (376, 66))  # Y BUTTON label
+    pygame.gfxdraw.filled_circle(screen, 384, 77, 11, BLACK)  # Y BUTTON fill
+    pygame.gfxdraw.aacircle(screen, 384, 77, 11, BLACK)  # Y BUTTON outline
+    screen.blit(font.render('Y', True, YELLOW), (380, 69))  # Y BUTTON label
 
-    pygame.gfxdraw.filled_circle(screen, 364, 91, 8, BLACK)  # X BUTTON fill
-    pygame.gfxdraw.aacircle(screen, 364, 91, 8, BLACK)  # X BUTTON outline
-    screen.blit(font.render('X', True, BLUE), (360, 83))  # X BUTTON label
+    pygame.gfxdraw.filled_circle(screen, 361, 99, 11, BLACK)  # X BUTTON fill
+    pygame.gfxdraw.aacircle(screen, 361, 99, 11, BLACK)  # X BUTTON outline
+    screen.blit(font.render('X', True, BLUE), (357, 91))  # X BUTTON label
 
-    pygame.gfxdraw.filled_circle(screen, 397, 91, 8, BLACK)  # B BUTTON outline
-    pygame.gfxdraw.aacircle(screen, 397, 91, 8, BLACK)  # B BUTTON outline
-    screen.blit(font.render('B', True, RED), (393, 83))  # B BUTTON label
+    pygame.gfxdraw.filled_circle(screen, 407, 99, 11, BLACK)  # B BUTTON outline
+    pygame.gfxdraw.aacircle(screen, 407, 99, 11, BLACK)  # B BUTTON outline
+    screen.blit(font.render('B', True, RED), (403, 91))  # B BUTTON label
 
-    pygame.gfxdraw.filled_circle(screen, 380, 107, 8, BLACK)  # A BUTTON outline
-    pygame.gfxdraw.aacircle(screen, 380, 107, 8, BLACK)  # A BUTTON outline
-    screen.blit(font.render('A', True, GREEN), (376, 99))  # A BUTTON label
+    pygame.gfxdraw.filled_circle(screen, 384, 122, 11, BLACK)  # A BUTTON outline
+    pygame.gfxdraw.aacircle(screen, 384, 122, 11, BLACK)  # A BUTTON outline
+    screen.blit(font.render('A', True, GREEN), (380, 114))  # A BUTTON label
 
     # START AND BACK
-    pygame.gfxdraw.filled_circle(screen, 319, 93, 4, BLACK)  # START fill
-    pygame.gfxdraw.aacircle(screen, 319, 93, 4, BLACK)  # START outline
-    pygame.gfxdraw.filled_circle(screen, 271, 93, 4, BLACK)  # BACK fill
-    pygame.gfxdraw.aacircle(screen, 271, 93, 4, BLACK)  # BACK outline
+    pygame.gfxdraw.filled_circle(screen, 324, 99, 7, BLACK)  # MENU fill
+    pygame.gfxdraw.aacircle(screen, 324, 99, 7, BLACK)  # MENU outline
+    # MENU label
+    x = 321
+    y = 97
+    for i in range(3):
+        pygame.gfxdraw.hline(screen, x, x + 6, y, WHITE)
+        y += 2
+
+    pygame.gfxdraw.filled_circle(screen, 277, 99, 7, BLACK)  # VIEW fill
+    pygame.gfxdraw.aacircle(screen, 277, 99, 7, BLACK)  # VIEW outline
+    # VIEW label
+    pygame.gfxdraw.rectangle(screen, (274, 96, 5, 5), WHITE)
+    pygame.gfxdraw.rectangle(screen, (276, 98, 5, 5), WHITE)
 
 
     # D-PAD
-    pygame.gfxdraw.filled_circle(screen, 253, 142, 24, CHARCOAL)
-    pygame.gfxdraw.aacircle(screen, 253, 142, 24, BLACK)
-    pygame.gfxdraw.aaellipse(screen, 252, 144, 27, 31, BLACK)
-    AAfilledRoundedRect(screen, (246, 120, 15, 46), BLACK)
-    AAfilledRoundedRect(screen, (230, 136, 46, 15), BLACK)
+    pygame.gfxdraw.aacircle(screen, 258, 152, 27, BLACK)
+    AAfilledRoundedRect(screen, (250, 128, 17, 49), BLACK)
+    AAfilledRoundedRect(screen, (234, 144, 49, 17), BLACK)
 
     # LEFT JOYSTICK
-    pygame.gfxdraw.filled_circle(screen, 210, 91, 17, BLACK)
-    pygame.gfxdraw.filled_circle(screen, 210, 91, 13, CHARCOAL)
-    pygame.gfxdraw.aacircle(screen, 210, 91, 13, BLACK)
-    pygame.gfxdraw.aacircle(screen, 210, 91, 17, BLACK)
-    pygame.gfxdraw.aacircle(screen, 210, 91, 24, BLACK)
+    pygame.gfxdraw.filled_circle(screen, 218, 99, 27, BLACK)
+    pygame.gfxdraw.filled_circle(screen, 218, 99, 19, CHARCOAL)
+    pygame.gfxdraw.aacircle(screen, 218, 99, 27, BLACK)
+    pygame.gfxdraw.aacircle(screen, 218, 99, 19, BLACK)
 
     # RIGHT JOYSTICK
-    pygame.gfxdraw.filled_circle(screen, 337, 142, 17, BLACK)
-    pygame.gfxdraw.filled_circle(screen, 337, 142, 13, CHARCOAL)
-    pygame.gfxdraw.aacircle(screen, 337, 142, 13, BLACK)
-    pygame.gfxdraw.aacircle(screen, 337, 142, 17, BLACK)
-    pygame.gfxdraw.aacircle(screen, 337, 142, 24, BLACK)
-    pygame.gfxdraw.aaellipse(screen, 338, 144, 27, 31, BLACK)
+    pygame.gfxdraw.filled_circle(screen, 343, 149, 27, BLACK)
+    pygame.gfxdraw.filled_circle(screen, 343, 149, 19, CHARCOAL)
+    pygame.gfxdraw.aacircle(screen, 343, 149, 27, BLACK)
+    pygame.gfxdraw.aacircle(screen, 343, 149, 19, BLACK)
 
     # DRAW POINTERS
-    pygame.draw.lines(screen, MEDGRAY, False, ((364, 91), (364, 59), (459, 59)), 2)  # X BUTTON
-    pygame.draw.line(screen, MEDGRAY, (380, 74), (459, 74), 2)  # Y BUTTON
-    pygame.draw.line(screen, MEDGRAY, (397, 91), (459, 91), 2)  # B BUTTON
-    pygame.draw.line(screen, MEDGRAY, (380, 107), (459, 107), 2)  # A BUTTON
-
-    pygame.draw.lines(screen, MEDGRAY, False, ((267, 142), (267, 110), (131, 110)), 2)  # DPAD RIGHT
-    pygame.draw.line(screen, MEDGRAY, (252, 125), (131, 125), 2)  # DPAD UP
-    pygame.draw.line(screen, MEDGRAY, (240, 142), (131, 142), 2)  # DPAD LEFT
-    pygame.draw.line(screen, MEDGRAY, (252, 160), (131, 160), 2)  # DPAD DOWN
-
-    pygame.draw.line(screen, MEDGRAY, (337, 142), (459, 142), 2)  # RIGHT STICK AXIS
-    pygame.draw.lines(screen, MEDGRAY, False, ((413, 142), (413, 166), (459, 166)), 2)  # RIGHT STICK BUTTON
-    pygame.draw.line(screen, MEDGRAY, (210, 91), (131, 91), 2) # LEFT STICK AXIS
-    pygame.draw.lines(screen, MEDGRAY, False, ((176, 91), (176, 67), (131, 67)), 2) # LEFT STICK BUTTON
-
-    pygame.draw.line(screen, MEDGRAY, (319, 93), (319, 35), 2) # START
-    pygame.draw.line(screen, MEDGRAY, (271, 93), (271, 35), 2) # BACK
-
-    pygame.draw.line(screen, MEDGRAY, (364, 30), (459, 30), 2) # RIGHT TRIGGER
-    pygame.draw.line(screen, MEDGRAY, (394, 45), (459, 45), 2)# RIGHT BUMPER
-    pygame.draw.line(screen, MEDGRAY, (226, 30), (131, 30), 2) # LEFT TRIGGER
-    pygame.draw.line(screen, MEDGRAY, (196, 45), (131, 45), 2) # LEFT BUMPER
+    # pygame.draw.lines(screen, MEDGRAY, False, ((364, 91), (364, 59), (459, 59)), 2)  # X BUTTON
+    # pygame.draw.line(screen, MEDGRAY, (380, 74), (459, 74), 2)  # Y BUTTON
+    # pygame.draw.line(screen, MEDGRAY, (397, 91), (459, 91), 2)  # B BUTTON
+    # pygame.draw.line(screen, MEDGRAY, (380, 107), (459, 107), 2)  # A BUTTON
+    #
+    # pygame.draw.lines(screen, MEDGRAY, False, ((267, 142), (267, 110), (131, 110)), 2)  # DPAD RIGHT
+    # pygame.draw.line(screen, MEDGRAY, (252, 125), (131, 125), 2)  # DPAD UP
+    # pygame.draw.line(screen, MEDGRAY, (240, 142), (131, 142), 2)  # DPAD LEFT
+    # pygame.draw.line(screen, MEDGRAY, (252, 160), (131, 160), 2)  # DPAD DOWN
+    #
+    # pygame.draw.line(screen, MEDGRAY, (337, 142), (459, 142), 2)  # RIGHT STICK AXIS
+    # pygame.draw.lines(screen, MEDGRAY, False, ((413, 142), (413, 166), (459, 166)), 2)  # RIGHT STICK BUTTON
+    # pygame.draw.line(screen, MEDGRAY, (210, 91), (131, 91), 2) # LEFT STICK AXIS
+    # pygame.draw.lines(screen, MEDGRAY, False, ((176, 91), (176, 67), (131, 67)), 2) # LEFT STICK BUTTON
+    #
+    # pygame.draw.line(screen, MEDGRAY, (319, 93), (319, 35), 2) # START
+    # pygame.draw.line(screen, MEDGRAY, (271, 93), (271, 35), 2) # BACK
+    #
+    # pygame.draw.line(screen, MEDGRAY, (364, 30), (459, 30), 2) # RIGHT TRIGGER
+    # pygame.draw.line(screen, MEDGRAY, (394, 45), (459, 45), 2)# RIGHT BUMPER
+    # pygame.draw.line(screen, MEDGRAY, (226, 30), (131, 30), 2) # LEFT TRIGGER
+    # pygame.draw.line(screen, MEDGRAY, (196, 45), (131, 45), 2) # LEFT BUMPER
 
 
 drawGP()
