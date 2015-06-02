@@ -122,18 +122,20 @@ def drawGP():
                (461, 180), (460, 174), (426, 71), (423, 67), (422, 65), (419, 63), (405, 56), (394, 51), (383, 48),
                (375, 46), (363, 46), (360, 48), (332, 78), (330, 79), (325, 81), (300, 81))
 
-    top = ((249, 57), (256, 41), (344, 41), (351, 57))
-    l_button = ((256, 41), (247, 35), (244, 34), (241, 33), (228, 33), (223, 34), (218, 36), (191, 48), (188, 50),
-                (186, 53), (185, 60))
-    r_button = ((344, 41), (353, 35), (356, 34), (359, 33), (372, 33), (377, 34), (382, 36), (409, 48), (412, 50),
-                (414, 53), (415, 60))
+    top = ((300, 81), (275, 81), (270, 79), (268, 78), (249, 57), (256, 41), (344, 41), (351, 57), (332, 78), (330, 79), (325, 81), (300, 81))
+    l_button = ((249, 57), (256, 41), (247, 35), (244, 34), (241, 33), (228, 33), (223, 34), (218, 36), (191, 48),
+                (188, 50), (186, 53), (185, 60), (217, 48), (237, 46))
+    r_button = ((351, 57), (344, 41), (353, 35), (356, 34), (359, 33), (372, 33), (377, 34), (382, 36), (409, 48),
+                (412, 50), (414, 53), (415, 60), (383, 48), (375, 46), (363, 46))
 
+    pygame.gfxdraw.filled_polygon(screen, outline, CHARCOAL)
+    pygame.gfxdraw.filled_polygon(screen, l_button, CHARCOAL)
+    pygame.gfxdraw.filled_polygon(screen, r_button, CHARCOAL)
+    pygame.gfxdraw.filled_polygon(screen, top, CHARCOAL)
+    pygame.gfxdraw.polygon(screen, top, BLACK)
+    pygame.gfxdraw.polygon(screen, l_button, BLACK)
+    pygame.gfxdraw.polygon(screen, r_button, BLACK)
     pygame.gfxdraw.polygon(screen, outline, BLACK)
-    pygame.draw.lines(screen, BLACK, False, top)
-    pygame.draw.lines(screen, BLACK, False, l_button)
-    pygame.draw.lines(screen, BLACK, False, r_button)
-
-
 
     # HOME button
     pygame.gfxdraw.aacircle(screen, 300, 62, 15, BLACK)
@@ -190,28 +192,28 @@ def drawGP():
     pygame.gfxdraw.aacircle(screen, 343, 149, 19, BLACK)
 
     # DRAW POINTERS
-    # pygame.draw.lines(screen, MEDGRAY, False, ((364, 91), (364, 59), (459, 59)), 2)  # X BUTTON
-    # pygame.draw.line(screen, MEDGRAY, (380, 74), (459, 74), 2)  # Y BUTTON
-    # pygame.draw.line(screen, MEDGRAY, (397, 91), (459, 91), 2)  # B BUTTON
-    # pygame.draw.line(screen, MEDGRAY, (380, 107), (459, 107), 2)  # A BUTTON
-    #
-    # pygame.draw.lines(screen, MEDGRAY, False, ((267, 142), (267, 110), (131, 110)), 2)  # DPAD RIGHT
-    # pygame.draw.line(screen, MEDGRAY, (252, 125), (131, 125), 2)  # DPAD UP
-    # pygame.draw.line(screen, MEDGRAY, (240, 142), (131, 142), 2)  # DPAD LEFT
-    # pygame.draw.line(screen, MEDGRAY, (252, 160), (131, 160), 2)  # DPAD DOWN
-    #
-    # pygame.draw.line(screen, MEDGRAY, (337, 142), (459, 142), 2)  # RIGHT STICK AXIS
-    # pygame.draw.lines(screen, MEDGRAY, False, ((413, 142), (413, 166), (459, 166)), 2)  # RIGHT STICK BUTTON
-    # pygame.draw.line(screen, MEDGRAY, (210, 91), (131, 91), 2) # LEFT STICK AXIS
-    # pygame.draw.lines(screen, MEDGRAY, False, ((176, 91), (176, 67), (131, 67)), 2) # LEFT STICK BUTTON
-    #
-    # pygame.draw.line(screen, MEDGRAY, (319, 93), (319, 35), 2) # START
-    # pygame.draw.line(screen, MEDGRAY, (271, 93), (271, 35), 2) # BACK
-    #
-    # pygame.draw.line(screen, MEDGRAY, (364, 30), (459, 30), 2) # RIGHT TRIGGER
-    # pygame.draw.line(screen, MEDGRAY, (394, 45), (459, 45), 2)# RIGHT BUMPER
-    # pygame.draw.line(screen, MEDGRAY, (226, 30), (131, 30), 2) # LEFT TRIGGER
-    # pygame.draw.line(screen, MEDGRAY, (196, 45), (131, 45), 2) # LEFT BUMPER
+    pygame.draw.lines(screen, MEDGRAY, False, ((361, 99), (361, 55), (485, 55)), 2)  # X BUTTON
+    pygame.draw.line(screen, MEDGRAY, (384, 77), (485, 77), 2)  # Y BUTTON
+    pygame.draw.line(screen, MEDGRAY, (407, 99), (485, 99), 2)  # B BUTTON
+    pygame.draw.line(screen, MEDGRAY, (384, 122), (485, 122), 2)  # A BUTTON
+
+    pygame.draw.lines(screen, MEDGRAY, False, ((275, 153), (275, 114), (117, 114)), 2)  # DPAD RIGHT
+    pygame.draw.line(screen, MEDGRAY, (258, 134), (117, 134), 2)  # DPAD UP
+    pygame.draw.line(screen, MEDGRAY, (241, 153), (117, 153), 2)  # DPAD LEFT
+    pygame.draw.line(screen, MEDGRAY, (258, 173), (117, 173), 2)  # DPAD DOWN
+
+    pygame.draw.line(screen, MEDGRAY, (343, 149), (485, 149), 2)  # RIGHT STICK AXIS
+    pygame.draw.lines(screen, MEDGRAY, False, ((430, 149), (430, 179), (485, 179)), 2)  # RIGHT STICK BUTTON
+    pygame.draw.line(screen, MEDGRAY, (218, 99), (117, 99), 2) # LEFT STICK AXIS
+    pygame.draw.lines(screen, MEDGRAY, False, ((180, 99), (180, 69), (117, 69)), 2) # LEFT STICK BUTTON
+
+    pygame.draw.line(screen, MEDGRAY, (324, 99), (324, 25), 2) # MENU
+    pygame.draw.line(screen, MEDGRAY, (277, 99), (277, 25), 2) # VIEW
+
+    pygame.draw.lines(screen, MEDGRAY, False, ((365, 30), (365, 20), (435, 20)), 2) # RIGHT TRIGGER
+    pygame.draw.line(screen, MEDGRAY, (375, 40), (485, 40), 2)# RIGHT BUMPER
+    pygame.draw.lines(screen, MEDGRAY, False, ((235, 30), (235, 20), (167, 20)), 2) # LEFT TRIGGER
+    pygame.draw.line(screen, MEDGRAY, (225, 40), (117, 40), 2) # LEFT BUMPER
 
 
 drawGP()
