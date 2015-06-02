@@ -1,3 +1,5 @@
+# EDGUI ver 2.01, build 8.
+
 import tkinter
 import tkinter.filedialog
 import xml.etree.ElementTree as ET
@@ -10,11 +12,11 @@ import pygame.gfxdraw
 
 ### GAMEPAD TYPE ###
 # Set gamepad type from argument, defaults to ps4 if no arg given.
-# Valid values are: 'ps3', 'ps4'
+# Valid values are: 'ps3', 'ps4', 'xb360'
 if len(sys.argv) < 2:
-    gamepad_type = 'ps4'
+    gamepad_type = 'xb360'
 else:
-    if sys.argv[1] in ('ps3', 'ps4'):
+    if sys.argv[1] in ('ps3', 'ps4', 'xb360', 'xbone'):
         gamepad_type = sys.argv[1]
     else:
         gamepad_type = 'ps4'
@@ -28,7 +30,8 @@ PINK = (238, 48, 167)
 GREEN = (61, 145, 64)
 RED = (255, 48, 48)
 BLUE = (113, 113, 198)
-YELLOW = (255, 255, 0)
+YELLOW = (207, 207, 0)
+ORANGE = (255, 102, 0)
 
 class Button():
 
@@ -88,7 +91,9 @@ class BindsHandler():
                     or bind.tag.endswith("_Landing") \
                     or bind.tag == "CycleNextPanel" \
                     or bind.tag == "CyclePreviousPanel"\
-                    or bind.tag.startswith('Cam'):
+                    or bind.tag.startswith('Cam')\
+                    or bind.tag.startswith('HeadLookYaw')\
+                    or bind.tag.startswith('HeadLookPitch'):
                 continue
 
             else:
@@ -140,7 +145,6 @@ class BindsHandler():
 
 class GamepadImage():
     # Fills the background with a drawn image of the controller.
-    # TODO: Expand this to support XB360/Xbone gamepads.
 
     """
     GamepadImage(surface, gamepad)
@@ -162,6 +166,16 @@ class GamepadImage():
         elif gamepad == 'ps4':
             self.face_buttons = dict(
                 btn_3=(368, 101), btn_2=(346, 122), btn_1=(389, 122), btn_0=(368, 144)
+            )
+
+        elif gamepad == 'xb360':
+            self.face_buttons = dict(
+                btn_3=(380, 74), btn_2=(364, 91), btn_1=(397, 91), btn_0=(380, 107)
+            )
+
+        elif gamepad == 'xbone':
+            self.face_buttons = dict(
+                btn_3=(384, 77), btn_2=(361, 99), btn_1=(407, 99), btn_0=(384, 122)
             )
 
     def __AAfilledRoundedRect(self, surface, rect, color, radius=0.4):
@@ -210,7 +224,7 @@ class GamepadImage():
         PI = 3.141592653
         self.screen.fill(self.colorkey)
 
-        if self.gamepad == "ps3":
+        if self.gamepad == 'ps3':
             
             ### PS3 GAMEPAD ###
             # OVERALL SHAPE
@@ -270,7 +284,7 @@ class GamepadImage():
             pygame.gfxdraw.arc(self.screen, 316, 156, 31, 349, 280, BLACK)  # RIGHT joystick pod outline
             pygame.gfxdraw.arc(self.screen, 222, 156, 31, 257, 182, BLACK)  # LEFT joystick pod outline
 
-        elif self.gamepad == "ps4":
+        elif self.gamepad == 'ps4':
             
             ### PS4 GAMEPAD ###
             self.__AAfilledRoundedRect(self.screen, (210, 82, 136, 106), CHARCOAL, radius=0.2)  # BACKGROUND
@@ -387,8 +401,171 @@ class GamepadImage():
                 startcolpos += 3
                 holes -= 1
 
+        elif self.gamepad == 'xb360':
+            font = pygame.font.SysFont('Arial', 14, bold=True)
+
+            outline = ((295, 49), (326, 48), (351, 37), (357, 39), (356, 42), (369, 46), (381, 46), (404, 54), (411, 59),
+                   (427, 105), (437, 141), (442, 167), (444, 184), (444, 195), (443, 207), (441, 215), (439, 221),
+                   (436, 229), (430, 236), (423, 239), (415, 239), (404, 236), (391, 229), (383, 221), (376, 215),
+                   (368, 207), (362, 200), (355, 195), (342, 188), (327, 184), (305, 182), (295, 181), (285, 182),
+                   (263, 184), (248, 188), (235, 195), (228, 200), (222, 207), (214, 215), (207, 221), (199, 229),
+                   (186, 236), (175, 239), (167, 239), (160, 236), (154, 229), (151, 221), (149, 215), (147, 207),
+                   (146, 195), (146, 184), (148, 167), (153, 141), (163, 105), (179, 59), (186, 54), (209, 46),
+                   (221, 46), (234, 42), (233, 39), (239, 37), (264, 48), (295, 49))
+
+            r_bumper = ((356, 42), (361, 33), (373, 34), (379, 35), (385, 37), (391, 40), (396, 42), (405, 46), (405, 48),
+                       (408, 50), (408, 57), (404, 54), (381, 46), (369, 46))
+
+            l_bumper = ((234, 42), (229, 33), (217, 34), (211, 35), (205, 37), (199, 40), (194, 42), (185, 46), (185, 48),
+                       (182, 50), (182, 57), (186, 54), (209, 46), (221, 46))
+
+            l_trigger = ((215, 34), (215, 28), (217, 25), (219, 21), (230, 21), (232, 25), (233, 28), (234, 39), (232, 39),
+                         (229, 33), (217, 34))
+
+            r_trigger = ((375, 34), (375, 28), (373, 25), (371, 21), (360, 21), (358, 25), (357, 28), (356, 39), (358, 39),
+                         (361, 33), (373, 34))
+
+            pygame.gfxdraw.filled_polygon(self.screen, outline, CHARCOAL)
+            pygame.gfxdraw.filled_polygon(self.screen, r_bumper, CHARCOAL)
+            pygame.gfxdraw.filled_polygon(self.screen, l_bumper, CHARCOAL)
+            pygame.gfxdraw.filled_polygon(self.screen, l_trigger, CHARCOAL)
+            pygame.gfxdraw.filled_polygon(self.screen, r_trigger, CHARCOAL)
+            pygame.gfxdraw.polygon(self.screen, outline, BLACK)
+            pygame.gfxdraw.polygon(self.screen, r_bumper, BLACK)
+            pygame.gfxdraw.polygon(self.screen, l_bumper, BLACK)
+            pygame.gfxdraw.polygon(self.screen, l_trigger, BLACK)
+            pygame.gfxdraw.polygon(self.screen, r_trigger, BLACK)
+
+            # HOME button
+            pygame.gfxdraw.aacircle(self.screen, 295, 93, 12, BLACK)
+
+            # FACE BUTTONS
+            pygame.gfxdraw.filled_circle(self.screen, 380, 74, 8, BLACK)  # Y BUTTON fill
+            pygame.gfxdraw.aacircle(self.screen, 380, 74, 8, BLACK)  # Y BUTTON outline
+            self.screen.blit(font.render('Y', True, YELLOW), (376, 66))  # Y BUTTON label
+
+            pygame.gfxdraw.filled_circle(self.screen, 364, 91, 8, BLACK)  # X BUTTON fill
+            pygame.gfxdraw.aacircle(self.screen, 364, 91, 8, BLACK)  # X BUTTON outline
+            self.screen.blit(font.render('X', True, BLUE), (360, 83))  # X BUTTON label
+
+            pygame.gfxdraw.filled_circle(self.screen, 397, 91, 8, BLACK)  # B BUTTON outline
+            pygame.gfxdraw.aacircle(self.screen, 397, 91, 8, BLACK)  # B BUTTON outline
+            self.screen.blit(font.render('B', True, RED), (393, 83))  # B BUTTON label
+
+            pygame.gfxdraw.filled_circle(self.screen, 380, 107, 8, BLACK)  # A BUTTON outline
+            pygame.gfxdraw.aacircle(self.screen, 380, 107, 8, BLACK)  # A BUTTON outline
+            self.screen.blit(font.render('A', True, GREEN), (376, 99))  # A BUTTON label
+
+            # START AND BACK
+            pygame.gfxdraw.filled_circle(self.screen, 319, 93, 4, BLACK)  # START fill
+            pygame.gfxdraw.aacircle(self.screen, 319, 93, 4, BLACK)  # START outline
+            pygame.gfxdraw.filled_circle(self.screen, 271, 93, 4, BLACK)  # BACK fill
+            pygame.gfxdraw.aacircle(self.screen, 271, 93, 4, BLACK)  # BACK outline
+
+            # D-PAD
+            pygame.gfxdraw.filled_circle(self.screen, 253, 142, 24, CHARCOAL)
+            pygame.gfxdraw.aacircle(self.screen, 253, 142, 24, BLACK)
+            pygame.gfxdraw.aaellipse(self.screen, 252, 144, 27, 31, BLACK)
+            self.__AAfilledRoundedRect(self.screen, (246, 120, 15, 46), BLACK)
+            self.__AAfilledRoundedRect(self.screen, (230, 136, 46, 15), BLACK)
+
+            # LEFT JOYSTICK
+            pygame.gfxdraw.filled_circle(self.screen, 210, 91, 17, BLACK)
+            pygame.gfxdraw.filled_circle(self.screen, 210, 91, 13, CHARCOAL)
+            pygame.gfxdraw.aacircle(self.screen, 210, 91, 13, BLACK)
+            pygame.gfxdraw.aacircle(self.screen, 210, 91, 17, BLACK)
+            pygame.gfxdraw.aacircle(self.screen, 210, 91, 24, BLACK)
+
+            # RIGHT JOYSTICK
+            pygame.gfxdraw.filled_circle(self.screen, 337, 142, 17, BLACK)
+            pygame.gfxdraw.filled_circle(self.screen, 337, 142, 13, CHARCOAL)
+            pygame.gfxdraw.aacircle(self.screen, 337, 142, 13, BLACK)
+            pygame.gfxdraw.aacircle(self.screen, 337, 142, 17, BLACK)
+            pygame.gfxdraw.aacircle(self.screen, 337, 142, 24, BLACK)
+            pygame.gfxdraw.aaellipse(self.screen, 338, 144, 27, 31, BLACK)
+
+        elif self.gamepad == "xbone":
+            font = pygame.font.SysFont('Arial', 14, bold=True)
+
+            outline = ((300, 81), (275, 81), (270, 79), (268, 78), (240, 48), (237, 46), (225, 46), (217, 48), (206, 51),
+                       (195, 56), (181, 63), (178, 65), (177, 67), (174, 71), (140, 174), (139, 180), (138, 185),
+                       (137, 191), (136, 195), (136, 215), (138, 220), (142, 232), (149, 242), (153, 245), (162, 250),
+                       (168, 252), (172, 252), (231, 198), (239, 196), (361, 196), (369, 198), (428, 252), (432, 252),
+                       (438, 250), (447, 245), (451, 242), (458, 232), (462, 220), (464, 215), (464, 195), (463, 191),
+                       (462, 185), (461, 180), (460, 174), (426, 71), (423, 67), (422, 65), (419, 63), (405, 56),
+                       (394, 51), (383, 48), (375, 46), (363, 46), (360, 48), (332, 78), (330, 79), (325, 81), (300, 81))
+
+            top = ((300, 81), (275, 81), (270, 79), (268, 78), (249, 57), (256, 41), (344, 41), (351, 57), (332, 78),
+                   (330, 79), (325, 81), (300, 81))
+            l_button = ((249, 57), (256, 41), (247, 35), (244, 34), (241, 33), (228, 33), (223, 34), (218, 36), (191, 48),
+                        (188, 50), (186, 53), (185, 60), (217, 48), (237, 46))
+            r_button = ((351, 57), (344, 41), (353, 35), (356, 34), (359, 33), (372, 33), (377, 34), (382, 36), (409, 48),
+                        (412, 50), (414, 53), (415, 60), (383, 48), (375, 46), (363, 46))
+
+            pygame.gfxdraw.filled_polygon(self.screen, outline, CHARCOAL)
+            pygame.gfxdraw.filled_polygon(self.screen, l_button, CHARCOAL)
+            pygame.gfxdraw.filled_polygon(self.screen, r_button, CHARCOAL)
+            pygame.gfxdraw.filled_polygon(self.screen, top, CHARCOAL)
+            pygame.gfxdraw.polygon(self.screen, top, BLACK)
+            pygame.gfxdraw.polygon(self.screen, l_button, BLACK)
+            pygame.gfxdraw.polygon(self.screen, r_button, BLACK)
+            pygame.gfxdraw.polygon(self.screen, outline, BLACK)
+
+            # HOME button
+            pygame.gfxdraw.aacircle(self.screen, 300, 62, 15, BLACK)
+
+            # FACE BUTTONS
+            pygame.gfxdraw.filled_circle(self.screen, 384, 77, 11, BLACK)  # Y BUTTON fill
+            pygame.gfxdraw.aacircle(self.screen, 384, 77, 11, BLACK)  # Y BUTTON outline
+            self.screen.blit(font.render('Y', True, YELLOW), (380, 69))  # Y BUTTON label
+
+            pygame.gfxdraw.filled_circle(self.screen, 361, 99, 11, BLACK)  # X BUTTON fill
+            pygame.gfxdraw.aacircle(self.screen, 361, 99, 11, BLACK)  # X BUTTON outline
+            self.screen.blit(font.render('X', True, BLUE), (357, 91))  # X BUTTON label
+
+            pygame.gfxdraw.filled_circle(self.screen, 407, 99, 11, BLACK)  # B BUTTON outline
+            pygame.gfxdraw.aacircle(self.screen, 407, 99, 11, BLACK)  # B BUTTON outline
+            self.screen.blit(font.render('B', True, RED), (403, 91))  # B BUTTON label
+
+            pygame.gfxdraw.filled_circle(self.screen, 384, 122, 11, BLACK)  # A BUTTON outline
+            pygame.gfxdraw.aacircle(self.screen, 384, 122, 11, BLACK)  # A BUTTON outline
+            self.screen.blit(font.render('A', True, GREEN), (380, 114))  # A BUTTON label
+
+            # START AND BACK
+            pygame.gfxdraw.filled_circle(self.screen, 324, 99, 7, BLACK)  # MENU fill
+            pygame.gfxdraw.aacircle(self.screen, 324, 99, 7, BLACK)  # MENU outline
+            # MENU label
+            x = 321
+            y = 97
+            for i in range(3):
+                pygame.gfxdraw.hline(self.screen, x, x + 6, y, WHITE)
+                y += 2
+
+            pygame.gfxdraw.filled_circle(self.screen, 277, 99, 7, BLACK)  # VIEW fill
+            pygame.gfxdraw.aacircle(self.screen, 277, 99, 7, BLACK)  # VIEW outline
+            # VIEW label
+            pygame.gfxdraw.rectangle(self.screen, (274, 96, 5, 5), WHITE)
+            pygame.gfxdraw.rectangle(self.screen, (276, 98, 5, 5), WHITE)
+
+            # D-PAD
+            pygame.gfxdraw.aacircle(self.screen, 258, 152, 27, BLACK)
+            self.__AAfilledRoundedRect(self.screen, (250, 128, 17, 49), BLACK)
+            self.__AAfilledRoundedRect(self.screen, (234, 144, 49, 17), BLACK)
+
+            # LEFT JOYSTICK
+            pygame.gfxdraw.filled_circle(self.screen, 218, 99, 27, BLACK)
+            pygame.gfxdraw.filled_circle(self.screen, 218, 99, 19, CHARCOAL)
+            pygame.gfxdraw.aacircle(self.screen, 218, 99, 27, BLACK)
+            pygame.gfxdraw.aacircle(self.screen, 218, 99, 19, BLACK)
+
+            # RIGHT JOYSTICK
+            pygame.gfxdraw.filled_circle(self.screen, 343, 149, 27, BLACK)
+            pygame.gfxdraw.filled_circle(self.screen, 343, 149, 19, CHARCOAL)
+            pygame.gfxdraw.aacircle(self.screen, 343, 149, 27, BLACK)
+            pygame.gfxdraw.aacircle(self.screen, 343, 149, 19, BLACK)
+
     def drawPointers(self):
-        if self.gamepad == "ps3":
+        if self.gamepad == 'ps3':
             # DRAW POINTERS
             pygame.draw.lines(self.screen, MEDGRAY, False, [[361, 38], [361, 17], [430, 17]], 2)  # RIGHT TRIGGER
             pygame.draw.line(self.screen, MEDGRAY, [361, 42], [430, 42], 2)  # RIGHT BUMPER
@@ -413,7 +590,7 @@ class GamepadImage():
             pygame.draw.line(self.screen, MEDGRAY, [220, 162], [112, 162], 2)  # LEFT STICK AXIS
             pygame.draw.lines(self.screen, MEDGRAY, False, [[142, 162], [142, 187], [112, 187]], 2)  # LEFT STICK BUTTON
 
-        elif self.gamepad == "ps4":
+        elif self.gamepad == 'ps4':
             pygame.draw.lines(self.screen, MEDGRAY, False, [[361, 68], [361, 50], [430, 50]], 2)  # RIGHT TRIGGER
             pygame.draw.line(self.screen, MEDGRAY, [361, 66], [430, 66], 2)  # RIGHT BUMPER
             pygame.draw.lines(self.screen, MEDGRAY, False, [[346, 122], [346, 85], [430, 85]], 2)  # SQUARE
@@ -436,6 +613,55 @@ class GamepadImage():
 
             pygame.draw.line(self.screen, MEDGRAY, [231, 163], [112, 163], 2)  # LEFT STICK AXIS
             pygame.draw.lines(self.screen, MEDGRAY, False, [[142, 163], [142, 186], [112, 186]], 2)  # LEFT STICK BUTTON
+
+        elif self.gamepad =='xb360':
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((364, 91), (364, 59), (459, 59)), 2)  # X BUTTON
+            pygame.draw.line(self.screen, MEDGRAY, (380, 74), (459, 74), 2)  # Y BUTTON
+            pygame.draw.line(self.screen, MEDGRAY, (397, 91), (459, 91), 2)  # B BUTTON
+            pygame.draw.line(self.screen, MEDGRAY, (380, 107), (459, 107), 2)  # A BUTTON
+
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((267, 142), (267, 110), (131, 110)), 2)  # DPAD RIGHT
+            pygame.draw.line(self.screen, MEDGRAY, (252, 125), (131, 125), 2)  # DPAD UP
+            pygame.draw.line(self.screen, MEDGRAY, (240, 142), (131, 142), 2)  # DPAD LEFT
+            pygame.draw.line(self.screen, MEDGRAY, (252, 160), (131, 160), 2)  # DPAD DOWN
+
+            pygame.draw.line(self.screen, MEDGRAY, (337, 142), (459, 142), 2)  # RIGHT STICK AXIS
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((413, 142), (413, 166), (459, 166)), 2)  # RIGHT STICK BUTTON
+            pygame.draw.line(self.screen, MEDGRAY, (210, 91), (131, 91), 2) # LEFT STICK AXIS
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((176, 91), (176, 67), (131, 67)), 2) # LEFT STICK BUTTON
+
+            pygame.draw.line(self.screen, MEDGRAY, (319, 93), (319, 25), 2) # START
+            pygame.draw.line(self.screen, MEDGRAY, (271, 93), (271, 25), 2) # BACK
+
+            pygame.draw.line(self.screen, MEDGRAY, (364, 30), (459, 30), 2) # RIGHT TRIGGER
+            pygame.draw.line(self.screen, MEDGRAY, (394, 45), (459, 45), 2)# RIGHT BUMPER
+            pygame.draw.line(self.screen, MEDGRAY, (226, 30), (131, 30), 2) # LEFT TRIGGER
+            pygame.draw.line(self.screen, MEDGRAY, (196, 45), (131, 45), 2) # LEFT BUMPER
+
+        elif self.gamepad == "xbone":
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((361, 99), (361, 55), (485, 55)), 2)  # X BUTTON
+            pygame.draw.line(self.screen, MEDGRAY, (384, 77), (485, 77), 2)  # Y BUTTON
+            pygame.draw.line(self.screen, MEDGRAY, (407, 99), (485, 99), 2)  # B BUTTON
+            pygame.draw.line(self.screen, MEDGRAY, (384, 122), (485, 122), 2)  # A BUTTON
+
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((275, 153), (275, 114), (117, 114)), 2)  # DPAD RIGHT
+            pygame.draw.line(self.screen, MEDGRAY, (258, 134), (117, 134), 2)  # DPAD UP
+            pygame.draw.line(self.screen, MEDGRAY, (241, 153), (117, 153), 2)  # DPAD LEFT
+            pygame.draw.line(self.screen, MEDGRAY, (258, 173), (117, 173), 2)  # DPAD DOWN
+
+            pygame.draw.line(self.screen, MEDGRAY, (343, 149), (485, 149), 2)  # RIGHT STICK AXIS
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((430, 149), (430, 179), (485, 179)), 2)  # RIGHT STICK BUTTON
+            pygame.draw.line(self.screen, MEDGRAY, (218, 99), (117, 99), 2) # LEFT STICK AXIS
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((180, 99), (180, 69), (117, 69)), 2) # LEFT STICK BUTTON
+
+            pygame.draw.line(self.screen, MEDGRAY, (324, 99), (324, 25), 2) # MENU
+            pygame.draw.line(self.screen, MEDGRAY, (277, 99), (277, 25), 2) # VIEW
+
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((365, 30), (365, 20), (435, 20)), 2) # RIGHT TRIGGER
+            pygame.draw.line(self.screen, MEDGRAY, (375, 40), (485, 40), 2)# RIGHT BUMPER
+            pygame.draw.lines(self.screen, MEDGRAY, False, ((235, 30), (235, 20), (167, 20)), 2) # LEFT TRIGGER
+            pygame.draw.line(self.screen, MEDGRAY, (225, 40), (117, 40), 2) # LEFT BUMPER
+
 
     def buttonLocation(self, button):
         # Spit out the (x, y) of the requested button.  Supports only Sony buttons for now.
@@ -599,13 +825,28 @@ def create_label_pos_dict(gamepad):
             x_rot=(435, 154), y_rot=(435, 164), z_up=(107, 45), z_down=(435, 45), pov_up=(107, 100), pov_left=(107, 117),
             pov_right=(107, 84), pov_down=(107, 134))
 
+    elif gamepad.lower() == 'xb360':
+        pos_dict = dict(
+            btn_0=(464, 86), btn_1=(464, 102), btn_2=(464, 54), btn_3=(464, 69), btn_4=(126, 40), btn_5=(464, 40),
+            btn_6=(266, 10), btn_7=(324, 10), btn_8=(126, 62), btn_9=(464, 161), x_axis=(126, 80), y_axis=(126, 90),
+            x_rot=(464, 131), y_rot=(464, 141), z_up=(126, 25), z_down=(464, 25), pov_up=(126, 120), pov_left=(126, 137),
+            pov_right=(126, 105), pov_down=(126, 155)
+        )
+
+    elif gamepad.lower() == 'xbone':
+        pos_dict = dict(
+            btn_0=(490, 117), btn_1=(490, 94), btn_2=(490, 50), btn_3=(490, 72), btn_4=(114, 35), btn_5=(490, 35),
+            btn_6=(277, 15), btn_7=(324, 5), btn_8=(114, 64), btn_9=(490, 174), x_axis=(114, 80), y_axis=(114, 94),
+            x_rot=(490, 144), y_rot=(490, 158), z_up=(162, 15), z_down=(440, 15), pov_up=(114, 129), pov_left=(114, 148),
+            pov_right=(114, 109), pov_down=(114, 168)
+        )
+
     return pos_dict
 
 
 ### MAIN
 def main():
     ### INITIALIZE ###
-    # TODO: Add a way to switch debug and gamepad_type options at runtime.  Low priority.
     # Debug for testing when a gamepad is not present
     debug = False
 
@@ -619,10 +860,19 @@ def main():
         BTN_X_COLOR = PINK
         BTN_Y_COLOR = GREEN
 
+    elif gamepad_type == 'xb360' or gamepad_type == 'xbone':
+        BTN_A_COLOR = GREEN
+        BTN_B_COLOR = RED
+        BTN_X_COLOR = BLUE
+        BTN_Y_COLOR = YELLOW
+
     # Display init
     init_txt = "Click to initialize gamepad system."
     pygame.init()
-    scr_size = (600, 260)
+    if gamepad_type == 'xbone':
+        scr_size = (620, 260)
+    else:
+        scr_size = (600, 260)
 
     drawbg = GamepadImage(pygame.Surface(scr_size), colorkey, gamepad_type)
 
@@ -716,14 +966,14 @@ def main():
 
     # Store buttons in a dict
     static_button_dict = dict(
-        btn_0=Button(btn_label_dict['btn_0_label'], label_pos_dict['btn_0'], BLUE, colorkey,
-                     buttonhighlight=ButtonHighlight(pygame.Surface(highlight_size), colorkey, highlight_r, BLUE)),
-        btn_1=Button(btn_label_dict['btn_1_label'], label_pos_dict['btn_1'], RED, colorkey,
-                     buttonhighlight=ButtonHighlight(pygame.Surface(highlight_size), colorkey, highlight_r, RED,)),
-        btn_2=Button(btn_label_dict['btn_2_label'], label_pos_dict['btn_2'], PINK, colorkey,
-                     buttonhighlight=ButtonHighlight(pygame.Surface(highlight_size), colorkey, highlight_r, PINK)),
-        btn_3=Button(btn_label_dict['btn_3_label'], label_pos_dict['btn_3'], GREEN, colorkey,
-                     buttonhighlight=ButtonHighlight(pygame.Surface(highlight_size), colorkey, highlight_r, GREEN)),
+        btn_0=Button(btn_label_dict['btn_0_label'], label_pos_dict['btn_0'], BTN_A_COLOR, colorkey,
+                     buttonhighlight=ButtonHighlight(pygame.Surface(highlight_size), colorkey, highlight_r, BTN_A_COLOR)),
+        btn_1=Button(btn_label_dict['btn_1_label'], label_pos_dict['btn_1'], BTN_B_COLOR, colorkey,
+                     buttonhighlight=ButtonHighlight(pygame.Surface(highlight_size), colorkey, highlight_r, BTN_B_COLOR,)),
+        btn_2=Button(btn_label_dict['btn_2_label'], label_pos_dict['btn_2'], BTN_X_COLOR, colorkey,
+                     buttonhighlight=ButtonHighlight(pygame.Surface(highlight_size), colorkey, highlight_r, BTN_X_COLOR)),
+        btn_3=Button(btn_label_dict['btn_3_label'], label_pos_dict['btn_3'], BTN_Y_COLOR, colorkey,
+                     buttonhighlight=ButtonHighlight(pygame.Surface(highlight_size), colorkey, highlight_r, BTN_Y_COLOR)),
         btn_4=Button(btn_label_dict['btn_4_label'], label_pos_dict['btn_4'], BLACK, colorkey, align='left'),
         btn_5=Button(btn_label_dict['btn_5_label'], label_pos_dict['btn_5'], BLACK, colorkey),
         btn_6=Button(btn_label_dict['btn_6_label'], label_pos_dict['btn_6'], BLACK, colorkey, align='center'),
@@ -748,8 +998,9 @@ def main():
 
     # Screen refresh object
     # The program window does not appear until this fires off.
+    scr_shift = (20, 0)
     refresh = ScreenRefresh(pygame.display.set_mode(scr_size), drawbg, static_button_dict, pov_button_dict, init_txt,
-                            offset=(20, 0))
+                            offset=scr_shift)
 
     refresh.draw(warn_activate=True)
 
@@ -891,13 +1142,6 @@ def main():
 
                     else:
                         refresh.draw()
-
-            #  We'll worry about resizing later.
-            # elif event.type == VIDEORESIZE:
-            #     scr_size = event.dict['size']
-            #     screen = pygame.display.set_mode(scr_size, RESIZABLE)
-            #     screen.blit(pygame.transform.scale(screen1, scr_size), (0, 0))
-            #     pygame.display.flip()
 
         clock.tick(10)
 
