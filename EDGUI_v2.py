@@ -1,3 +1,5 @@
+# EDGUI ver 2.01, build 8.
+
 import tkinter
 import tkinter.filedialog
 import xml.etree.ElementTree as ET
@@ -845,7 +847,6 @@ def create_label_pos_dict(gamepad):
 ### MAIN
 def main():
     ### INITIALIZE ###
-    # TODO: Add a way to switch debug and gamepad_type options at runtime.  Low priority.
     # Debug for testing when a gamepad is not present
     debug = False
 
